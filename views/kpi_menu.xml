@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="root_menu" name="Gestión de Talento" web_icon="kpi_management_suite,static/description/icon.png" sequence="10"/>
+
+    <menuitem id="menu_dashboard" name="Dashboard" parent="root_menu" action="open_board_kpi_action" sequence="1"/>
+    
+    <menuitem id="menu_kpi_week" name="Evaluación Semanal" parent="root_menu" action="kpi_evaluation_week_action" sequence="10"/>
+    <menuitem id="menu_kpi_task" name="Tareas y Proyectos" parent="root_menu" action="kpi_admin_task_action" sequence="20"/>
+    <menuitem id="menu_kpi_course" name="Certificaciones" parent="root_menu" action="kpi_course_tracking_action" sequence="30"/>
+    
+    <menuitem id="menu_config" name="Configuración" parent="root_menu" sequence="100"/>
+    <menuitem id="menu_config_templates" name="Plantillas KPI" parent="menu_config" action="kpi_template_action"/>
+</odoo>

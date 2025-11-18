@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="dash_graph_admin_pie" model="ir.ui.view">
+        <field name="name">dash.graph.admin.pie</field>
+        <field name="model">kpi.admin.task</field>
+        <field name="arch" type="xml">
+            <graph string="Estado General" type="pie" sample="1"><field name="state"/><field name="score_percentage" type="measure"/></graph>
+        </field>
+    </record>
+    
+    <record id="dash_graph_admin_bar" model="ir.ui.view">
+        <field name="name">dash.graph.admin.bar</field>
+        <field name="model">kpi.admin.task</field>
+        <field name="arch" type="xml">
+            <graph string="Carga Laboral" type="bar" stacked="True" sample="1"><field name="employee_id"/><field name="state"/></graph>
+        </field>
+    </record>
+    
+    <record id="dash_graph_internal_line" model="ir.ui.view">
+        <field name="name">dash.graph.internal.line</field>
+        <field name="model">kpi.evaluation.week</field>
+        <field name="arch" type="xml">
+            <graph string="Tendencia Semanal" type="line" sample="1"><field name="date_start"/><field name="final_average" type="measure"/></graph>
+        </field>
+    </record>
+    
+    <record id="dash_graph_course_bar" model="ir.ui.view">
+        <field name="name">dash.graph.course.bar</field>
+        <field name="model">kpi.course.tracking</field>
+        <field name="arch" type="xml">
+            <graph string="Ranking Cursos" type="bar" sample="1"><field name="employee_id"/><field name="total_progress_percentage" type="measure"/></graph>
+        </field>
+    </record>
+
+    <record id="act_dash_admin_pie" model="ir.actions.act_window">
+        <field name="name">Estado Tareas</field>
+        <field name="res_model">kpi.admin.task</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="dash_graph_admin_pie"/>
+    </record>
+    
+    <record id="act_dash_admin_bar" model="ir.actions.act_window">
+        <field name="name">Carga Trabajo</field>
+        <field name="res_model">kpi.admin.task</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="dash_graph_admin_bar"/>
+    </record>
+    
+    <record id="act_dash_internal" model="ir.actions.act_window">
+        <field name="name">KPIs Internos</field>
+        <field name="res_model">kpi.evaluation.week</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="dash_graph_internal_line"/>
+    </record>
+    
+    <record id="act_dash_course" model="ir.actions.act_window">
+        <field name="name">Certificaciones</field>
+        <field name="res_model">kpi.course.tracking</field>
+        <field name="view_mode">graph</field>
+        <field name="view_id" ref="dash_graph_course_bar"/>
+    </record>
+
+    <record id="board_kpi_main" model="ir.ui.view">
+        <field name="name">board.kpi.main</field>
+        <field name="model">board.board</field>
+        <field name="arch" type="xml">
+            <form string="Tablero de Mando">
+                <board style="1">
+                    <column>
+                        <action string="1. KPIs Internos (Tendencia)" name="%(act_dash_internal)d"/>
+                        <action string="2. Ranking Certificaciones" name="%(act_dash_course)d"/>
+                        <action string="3. Estado Tareas (Global)" name="%(act_dash_admin_pie)d"/>
+                        <action string="Carga Laboral (Por Persona)" name="%(act_dash_admin_bar)d"/>
+                        <action string="Gestión de Tareas (Kanban)" name="%(kpi_admin_task_action)d" view_mode="kanban"/>
+                    </column>
+                </board>
+            </form>
+        </field>
+    </record>
+
+    <record id="open_board_kpi_action" model="ir.actions.act_window">
+        <field name="name">Tablero de Mando</field>
+        <field name="res_model">board.board</field>
+        <field name="view_mode">form</field>
+        <field name="usage">menu</field>
+        <field name="view_id" ref="board_kpi_main"/>
+    </record>
+</odoo>

@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_kpi_template,kpi.template,model_kpi_template,base.group_user,1,1,1,1
+access_kpi_week,kpi.evaluation.week,model_kpi_evaluation_week,base.group_user,1,1,1,1
+access_kpi_line,kpi.evaluation.line,model_kpi_evaluation_line,base.group_user,1,1,1,1
+access_kpi_task,kpi.admin.task,model_kpi_admin_task,base.group_user,1,1,1,1
+access_kpi_course,kpi.course.tracking,model_kpi_course_tracking,base.group_user,1,1,1,1
+access_kpi_course_log,kpi.course.log,model_kpi_course_log,base.group_user,1,1,1,1
