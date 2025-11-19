@@ -3,44 +3,44 @@
     <record id="view_kpi_task_graph_donut" model="ir.ui.view">
         <field name="name">kpi.admin.task.graph.donut</field>
         <field name="model">kpi.admin.task</field>
-        <field name="arch" type="xml"><graph string="Estado de Tareas" type="pie" sample="1"><field name="state"/><field name="score_percentage" type="measure"/></graph></field>
+        <field name="arch" type="xml"><graph string="Task Status" type="pie" sample="1"><field name="state"/><field name="score_percentage" type="measure"/></graph></field>
     </record>
 
     <record id="view_kpi_task_graph_bar" model="ir.ui.view">
         <field name="name">kpi.admin.task.graph.bar</field>
         <field name="model">kpi.admin.task</field>
-        <field name="arch" type="xml"><graph string="Carga de Trabajo" type="bar" stacked="True" sample="1"><field name="employee_id"/><field name="state"/></graph></field>
+        <field name="arch" type="xml"><graph string="Workload Analysis" type="bar" stacked="True" sample="1"><field name="employee_id"/><field name="state"/></graph></field>
     </record>
 
     <record id="dashboard_graph_weekly_line" model="ir.ui.view">
         <field name="name">dashboard.graph.weekly.line</field>
         <field name="model">kpi.evaluation.week</field>
-        <field name="arch" type="xml"><graph string="Tendencia de Rendimiento" type="line" sample="1"><field name="date_start" interval="week"/><field name="employee_id"/><field name="final_average" type="measure"/></graph></field>
+        <field name="arch" type="xml"><graph string="Weekly Performance Trend" type="line" sample="1"><field name="date_start" interval="week"/><field name="employee_id"/><field name="final_average" type="measure"/></graph></field>
     </record>
 
     <record id="dashboard_graph_course_progress_by_emp" model="ir.ui.view">
         <field name="name">dashboard.graph.course.progress.emp</field>
         <field name="model">kpi.course.tracking</field>
-        <field name="arch" type="xml"><graph string="Avance de Certificaciones" type="bar" sample="1"><field name="employee_id"/><field name="total_progress_percentage" type="measure"/></graph></field>
+        <field name="arch" type="xml"><graph string="Certification Progress" type="bar" sample="1"><field name="employee_id"/><field name="total_progress_percentage" type="measure"/></graph></field>
     </record>
 
-    <record id="action_kpi_task_graph_donut_link" model="ir.actions.act_window"><field name="name">Tareas: Estado General</field><field name="res_model">kpi.admin.task</field><field name="view_mode">graph</field><field name="view_id" ref="view_kpi_task_graph_donut"/></record>
-    <record id="action_kpi_task_graph_bar_link" model="ir.actions.act_window"><field name="name">Tareas: Carga de Trabajo</field><field name="res_model">kpi.admin.task</field><field name="view_mode">graph</field><field name="view_id" ref="view_kpi_task_graph_bar"/></record>
-    <record id="act_dash_weekly_trend" model="ir.actions.act_window"><field name="name">Tendencia Semanal</field><field name="res_model">kpi.evaluation.week</field><field name="view_mode">graph</field><field name="view_id" ref="dashboard_graph_weekly_line"/></record>
-    <record id="act_dash_course_rank" model="ir.actions.act_window"><field name="name">Ranking de Cursos</field><field name="res_model">kpi.course.tracking</field><field name="view_mode">graph</field><field name="view_id" ref="dashboard_graph_course_progress_by_emp"/></record>
+    <record id="action_kpi_task_graph_donut_link" model="ir.actions.act_window"><field name="name">Tasks: Status Overview</field><field name="res_model">kpi.admin.task</field><field name="view_mode">graph</field><field name="view_id" ref="view_kpi_task_graph_donut"/></record>
+    <record id="action_kpi_task_graph_bar_link" model="ir.actions.act_window"><field name="name">Tasks: Workload</field><field name="res_model">kpi.admin.task</field><field name="view_mode">graph</field><field name="view_id" ref="view_kpi_task_graph_bar"/></record>
+    <record id="act_dash_weekly_trend" model="ir.actions.act_window"><field name="name">Weekly Performance Trend</field><field name="res_model">kpi.evaluation.week</field><field name="view_mode">graph</field><field name="view_id" ref="dashboard_graph_weekly_line"/></record>
+    <record id="act_dash_course_rank" model="ir.actions.act_window"><field name="name">Certification Ranking</field><field name="res_model">kpi.course.tracking</field><field name="view_mode">graph</field><field name="view_id" ref="dashboard_graph_course_progress_by_emp"/></record>
 
     <record id="board_kpi_statistics_form" model="ir.ui.view">
         <field name="name">board.kpi.statistics.form</field>
         <field name="model">board.board</field>
         <field name="arch" type="xml">
-            <form string="Tablero de Mando Integral">
+            <form string="Executive KPI Dashboard">
                 <board style="1">
                     <column>
-                        <action string="1. KPIs Internos (Tendencia)" name="%(act_dash_weekly_trend)d"/>
-                        <action string="2. Ranking Certificaciones" name="%(act_dash_course_rank)d"/>
-                        <action string="3. Estado de Tareas" name="%(action_kpi_task_graph_donut_link)d"/>
-                        <action string="Carga de Trabajo" name="%(action_kpi_task_graph_bar_link)d"/>
-                        <action string="Tablero Kanban de Tareas" name="%(kpi_admin_task_action)d" view_mode="kanban"/>
+                        <action string="1. Weekly Trend (Internal)" name="%(act_dash_weekly_trend)d"/>
+                        <action string="2. Certification Ranking" name="%(act_dash_course_rank)d"/>
+                        <action string="3. Task Status (Global)" name="%(action_kpi_task_graph_donut_link)d"/>
+                        <action string="Workload (By Employee)" name="%(action_kpi_task_graph_bar_link)d"/>
+                        <action string="Task Kanban Board" name="%(kpi_management_suite.kpi_admin_task_action)d" view_mode="kanban"/>
                     </column>
                 </board>
             </form>
@@ -48,7 +48,7 @@
     </record>
 
     <record id="open_board_kpi_dashboard" model="ir.actions.act_window">
-        <field name="name">Tablero de Mando General</field>
+        <field name="name">KPI Dashboard</field>
         <field name="res_model">board.board</field>
         <field name="view_mode">form</field>
         <field name="usage">menu</field>
