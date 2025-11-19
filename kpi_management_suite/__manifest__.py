@@ -1,32 +1,39 @@
 {
-    'name': "Suite de Gestión y Evaluación de KPIs",
-    'summary': 'Herramienta integral para medir rendimiento semanal, tareas y avance de certificaciones por colaborador.',
+    'name': "Suite de Gestión de KPIs",
+    'summary': 'Evaluación de Desempeño 360: Internos, Tareas y Certificaciones.',
     'description': """
-        Módulo de Gestión de Desempeño y KPIs (Key Performance Indicators).
-        Incluye tres segmentos de gestión para una evaluación completa del talento:
-        1.  Evaluación Semanal Interna (Puntualidad, Imagen, Limpieza, Agenda).
-        2.  Seguimiento de Tareas y Proyectos con puntuación de calidad (Escala 1-10).
-        3.  Control de Avance de Cursos y Certificaciones.
-        Incluye un Tablero de Mando (Dashboard) totalmente gráfico y responsive.
+        Solución integral para la gestión del rendimiento del talento humano.
+        
+        Módulos Incluidos:
+        1. Evaluación Semanal (KPIs Internos): Medición de cumplimiento de normativas.
+        2. Gestión de Tareas (Administrativo): Seguimiento de proyectos con escala de calidad 1-10.
+        3. Plan de Carrera (Certificaciones): Tracking de avance en cursos.
+        
+        Incluye Tablero de Mando (Dashboard) totalmente gráfico y responsive.
     """,
-    'version': '17.0.1.0.0',
-    'category': 'Human Resources/Productivity',
-    'author': "Carlos Ramos", # Nombre de tu empresa comercial
-    'website': "https://github.com/cramosmartinez", 
+    'version': '17.0.1.1', 
+    'category': 'Human Resources',
+    'author': "Carlos Ramos",
+    'website': "https://github.com/cramosmartinez",
     'license': 'AGPL-3',
-    'currency': 'USD',
-    'price': 10, # Precio inicial
+    'application': True,
+    'installable': True,
     
-    # Dependencias obligatorias para RRHH, Chat, y el Dashboard
+   
+    'price': 15.00,
+    'currency': 'USD',
+    
+   
     'depends': ['base', 'hr', 'mail', 'board'],
+    
+   
+    'images': ['static/description/cover.png'],
+    
     
     'data': [
         'security/ir.model.access.csv',
         'views/kpi_views.xml',
-        'views/kpi_dashboard.xml', 
+        'views/kpi_dashboard.xml',
         'views/kpi_menu.xml',
     ],
-    
-    'installable': True,
-    'application': True,
 }

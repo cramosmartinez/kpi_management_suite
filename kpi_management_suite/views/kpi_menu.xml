@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <menuitem id="root_menu" name="Gestión de Talento" web_icon="kpi_management_suite,static/description/icon.png" sequence="10"/>
+    <menuitem id="kpi_evaluation_root_menu" name="Evaluación de KPIs" web_icon="kpi_management_suite,static/description/icon.png" sequence="20"/>
 
-    <menuitem id="menu_dashboard" name="Dashboard" parent="root_menu" action="open_board_kpi_action" sequence="1"/>
+    <menuitem id="kpi_dashboard_main_menu" name="Tablero de Mando" parent="kpi_evaluation_root_menu" action="open_board_kpi_dashboard" sequence="1"/> 
     
-    <menuitem id="menu_kpi_week" name="Evaluación Semanal" parent="root_menu" action="kpi_evaluation_week_action" sequence="10"/>
-    <menuitem id="menu_kpi_task" name="Tareas y Proyectos" parent="root_menu" action="kpi_admin_task_action" sequence="20"/>
-    <menuitem id="menu_kpi_course" name="Certificaciones" parent="root_menu" action="kpi_course_tracking_action" sequence="30"/>
-    
-    <menuitem id="menu_config" name="Configuración" parent="root_menu" sequence="100"/>
-    <menuitem id="menu_config_templates" name="Plantillas KPI" parent="menu_config" action="kpi_template_action"/>
+    <menuitem id="kpi_evaluation_week_menu" name="Evaluación Semanal (Internos)" parent="kpi_evaluation_root_menu" action="kpi_evaluation_week_action" sequence="10"/>
+    <menuitem id="kpi_admin_task_menu" name="KPIs de Tareas (Admin)" parent="kpi_evaluation_root_menu" action="kpi_admin_task_action" sequence="20"/>
+    <menuitem id="kpi_course_tracking_menu" name="KPIs de Cursos (Certificación)" parent="kpi_evaluation_root_menu" action="kpi_course_tracking_action" sequence="30"/>
+
+    <menuitem id="kpi_config_menu" name="Configuración" parent="kpi_evaluation_root_menu" sequence="100"/>
+    <menuitem id="kpi_template_menu" name="Plantillas de KPI (Internos)" parent="kpi_config_menu" action="kpi_template_action" sequence="10"/>
 </odoo>

@@ -1,7 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+
+    <record id="kpi_template_tree_view" model="ir.ui.view">
+        <field name="name">kpi.template.tree</field>
+        <field name="model">kpi.template</field>
+        <field name="arch" type="xml">
+            <tree string="Plantillas de KPI">
+                <field name="name"/>
+                <field name="active"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="kpi_template_form_view" model="ir.ui.view">
+        <field name="name">kpi.template.form</field>
+        <field name="model">kpi.template</field>
+        <field name="arch" type="xml">
+            <form string="Plantilla de KPI">
+                <sheet>
+                    <widget name="web_ribbon" title="Archivado" bg_color="bg-danger" invisible="active"/>
+                    <group>
+                        <group><field name="name"/><field name="active"/></group>
+                    </group>
+                    <group string="Manual de Calificación">
+                        <field name="description" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
     <record id="kpi_template_action" model="ir.actions.act_window">
-        <field name="name">Plantillas de KPI</field>
+        <field name="name">Plantillas de KPI (Internos)</field>
         <field name="res_model">kpi.template</field>
         <field name="view_mode">tree,form</field>
     </record>
@@ -10,9 +40,12 @@
         <field name="name">kpi.evaluation.week.tree</field>
         <field name="model">kpi.evaluation.week</field>
         <field name="arch" type="xml">
-            <tree string="Evaluaciones" decoration-info="state == 'draft'">
+            <tree string="Evaluaciones Semanales" decoration-info="state == 'draft'">
                 <field name="name"/>
-                <field name="final_average" widget="percentage"/>
+                <field name="employee_id"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="final_average" widget="percentage" string="Promedio"/>
                 <field name="state"/>
             </tree>
         </field>
@@ -22,60 +55,104 @@
         <field name="name">kpi.evaluation.week.form</field>
         <field name="model">kpi.evaluation.week</field>
         <field name="arch" type="xml">
-            <form>
+            <form string="Hoja de Evaluación Semanal">
                 <header>
-                    <button name="action_load_kpi_templates" string="Cargar KPIs" type="object" class="oe_highlight" invisible="state!='draft' or line_ids"/>
-                    <button name="action_validate" string="Validar" type="object" class="oe_highlight" invisible="state!='draft'"/>
-                    <field name="state" widget="statusbar"/>
+                    <button name="action_load_kpi_templates" string="Cargar Plantillas de KPI" type="object" class="oe_highlight" invisible="state != 'draft' or line_ids"/>
+                    <button name="action_validate" string="Validar" type="object" class="oe_highlight" invisible="state != 'draft'"/>
+                    <button name="action_cancel" string="Cancelar" type="object" invisible="state != 'done'"/>
+                    <button name="action_reset_to_draft" string="Reestablecer a Borrador" type="object" invisible="state not in ['done', 'cancel']"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,done"/>
                 </header>
                 <sheet>
-                    <div class="oe_title"><h1><field name="name"/></h1></div>
-                    <group><field name="employee_id"/><field name="date_start"/></group>
+                    <div class="oe_title"><h1><field name="name" readonly="1"/></h1></div>
+                    <group>
+                        <group><field name="employee_id"/><field name="date_start"/></group>
+                        <group><field name="date_end"/></group>
+                    </group>
                     <notebook>
-                        <page string="Métricas"><field name="line_ids"><tree editable="bottom"><field name="kpi_id"/><field name="score_monday"/><field name="score_tuesday"/><field name="score_wednesday"/><field name="score_thursday"/><field name="score_friday"/><field name="weekly_average" widget="percentage"/></tree></field></page>
+                        <page string="Evaluación Semanal">
+                            <field name="line_ids" nolabel="1" readonly="state != 'draft'">
+                                <tree editable="bottom">
+                                    <field name="kpi_id" readonly="1"/>
+                                    <field name="score_monday"/>
+                                    <field name="score_tuesday"/>
+                                    <field name="score_wednesday"/>
+                                    <field name="score_thursday"/>
+                                    <field name="score_friday"/>
+                                    <field name="weekly_average" widget="percentage" readonly="1"/>
+                                </tree>
+                            </field>
+                            <group class="oe_subtotal_footer oe_right">
+                                <field name="final_average" widget="percentage" string="Promedio Final"/>
+                            </group>
+                        </page>
                     </notebook>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids"/>
+                        <field name="message_ids"/>
+                        <field name="activity_ids"/>
+                    </div>
                 </sheet>
             </form>
         </field>
     </record>
 
     <record id="kpi_evaluation_week_action" model="ir.actions.act_window">
-        <field name="name">Evaluación Semanal</field>
+        <field name="name">Evaluaciones Semanales</field>
         <field name="res_model">kpi.evaluation.week</field>
-        <field name="view_mode">tree,form,graph</field>
+        <field name="view_mode">tree,form,graph,pivot</field>
+    </record>
+
+    <record id="kpi_admin_task_tree_view" model="ir.ui.view">
+        <field name="name">kpi.admin.task.tree</field>
+        <field name="model">kpi.admin.task</field>
+        <field name="arch" type="xml">
+            <tree string="Tareas" decoration-success="state == 'complete'" decoration-danger="state == 'overdue'">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="task_type"/>
+                <field name="date_deadline"/>
+                <field name="state"/>
+                <field name="score" string="Puntuación (1-10)"/>
+            </tree>
+        </field>
     </record>
 
     <record id="kpi_admin_task_form_view" model="ir.ui.view">
         <field name="name">kpi.admin.task.form</field>
         <field name="model">kpi.admin.task</field>
         <field name="arch" type="xml">
-            <form>
+            <form string="Tarea">
                 <header>
-                    <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,in_progress_int,complete,overdue" options="{'clickable': '1'}"/>
                 </header>
                 <sheet>
-                    <div class="alert alert-info shadow-sm p-2 mb-3" role="alert">
-                        <strong>Calidad (1-10):</strong> 
-                        <span class="badge text-bg-danger ms-2">1-3 Bajo</span>
-                        <span class="badge text-bg-warning ms-2">4-6 Medio</span>
-                        <span class="badge text-bg-success ms-2">7-8 Bueno</span>
-                        <span class="badge text-bg-primary ms-2">9-10 Excelente</span>
+                    <div class="alert alert-info shadow-sm p-3 mb-4" role="alert">
+                        <h4 class="alert-heading" style="font-size: 1.1em; font-weight: 600;">Calidad y Rendimiento (Escala 1 a 10)</h4>
+                        <ul style="list-style: none; padding: 0; margin-top: 5px; display: flex; justify-content: space-around;">
+                            <li style="flex: 1; text-align: center;"><span class="badge text-bg-danger p-2" style="background-color: #dc3545 !important; color: white;">1-3 Bajo</span></li>
+                            <li style="flex: 1; text-align: center;"><span class="badge text-bg-warning p-2" style="background-color: #ffc107 !important;">4-6 Medio</span></li>
+                            <li style="flex: 1; text-align: center;"><span class="badge text-bg-success p-2" style="background-color: #198754 !important; color: white;">7-8 Bueno</span></li>
+                            <li style="flex: 1; text-align: center;"><span class="badge text-bg-primary p-2" style="background-color: #0d6efd !important; color: white;">9-10 Excelencia</span></li>
+                        </ul>
                     </div>
-
-                    <div class="oe_title"><h1><field name="name" placeholder="Título de la Tarea"/></h1></div>
+                    
+                    <div class="oe_title"><h1><field name="name" placeholder="Nombre de la Tarea..."/></h1></div>
+                    
                     <group>
                         <group>
                             <field name="employee_id"/>
                             <field name="task_type"/>
                         </group>
                         <group>
-                            <field name="score" widget="integer"/>
-                            <field name="date_deadline"/>
+                            <field name="score" widget="integer" string="Puntuación Final (1-10)"/>
+                            <field name="score_percentage" invisible="1"/>
                             <field name="color" widget="color_picker" invisible="1"/>
                         </group>
                     </group>
+                    <group string="Fechas"><field name="date_assigned"/><field name="date_deadline"/><field name="date_completed"/></group>
+                    <div class="oe_chatter"><field name="message_follower_ids"/><field name="message_ids"/><field name="activity_ids"/></div>
                 </sheet>
-                <div class="oe_chatter"><field name="message_follower_ids"/><field name="message_ids"/></div>
             </form>
         </field>
     </record>
@@ -85,23 +162,17 @@
         <field name="model">kpi.admin.task</field>
         <field name="arch" type="xml">
             <kanban default_group_by="state" class="o_kanban_small_column">
-                <field name="color"/><field name="name"/><field name="employee_id"/><field name="score"/>
+                <field name="state"/><field name="color"/><field name="score"/><field name="name"/><field name="employee_id"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div t-attf-class="oe_kanban_content oe_kanban_global_click {{ record.color.raw_value ? 'o_kanban_color_' + record.color.raw_value : '' }}">
                             <div class="o_kanban_record_top">
-                                <div class="o_kanban_record_headings">
-                                    <strong class="o_kanban_record_title"><field name="name"/></strong>
-                                </div>
+                                <div class="o_kanban_record_headings"><strong class="o_kanban_record_title"><field name="name"/></strong></div>
                             </div>
-                            <div class="o_kanban_record_body">
-                                <field name="employee_id"/>
-                            </div>
+                            <div class="o_kanban_record_body"><field name="employee_id"/></div>
                             <div class="o_kanban_record_bottom">
                                 <div class="oe_kanban_bottom_right">
-                                    <span class="badge rounded-pill text-bg-dark" t-if="record.score.raw_value > 0">
-                                        <field name="score"/>/10
-                                    </span>
+                                    <span class="badge rounded-pill text-bg-dark" t-if="record.score.raw_value > 0"><field name="score"/>/10</span>
                                 </div>
                             </div>
                         </div>
@@ -112,14 +183,81 @@
     </record>
 
     <record id="kpi_admin_task_action" model="ir.actions.act_window">
-        <field name="name">Tareas y Proyectos</field>
+        <field name="name">KPIs de Tareas (Admin)</field>
         <field name="res_model">kpi.admin.task</field>
         <field name="view_mode">kanban,tree,form,graph,pivot</field>
+        <field name="context">{'search_default_group_by_state': 1}</field>
+    </record>
+
+    <record id="kpi_course_tracking_form_view" model="ir.ui.view">
+        <field name="name">kpi.course.tracking.form</field>
+        <field name="model">kpi.course.tracking</field>
+        <field name="arch" type="xml">
+            <form string="Certificación">
+                <header>
+                    <field name="state" widget="statusbar" options="{'clickable': '1'}" statusbar_visible="on_track,late,at_risk"/>
+                </header>
+                <sheet>
+                    <div class="oe_title"><h1><field name="name" placeholder="Nombre del Curso..."/></h1></div>
+                    <group>
+                        <group><field name="employee_id"/></group>
+                        <group><field name="total_progress_percentage" widget="percentpie" string="Avance"/></group>
+                    </group>
+                    <notebook>
+                        <page string="Bitácora de Avance">
+                            <field name="log_ids">
+                                <tree editable="bottom">
+                                    <field name="date_log"/>
+                                    <field name="progress_percentage" string="% Reportado"/>
+                                    <field name="notes"/>
+                                </tree>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter"><field name="message_follower_ids"/><field name="message_ids"/></div>
+            </form>
+        </field>
+    </record>
+
+    <record id="kpi_course_tracking_tree_view" model="ir.ui.view">
+        <field name="name">kpi.course.tracking.tree</field>
+        <field name="model">kpi.course.tracking</field>
+        <field name="arch" type="xml">
+            <tree string="Cursos" decoration-success="state == 'on_track'" decoration-warning="state == 'late'" decoration-danger="state == 'at_risk'">
+                <field name="name"/>
+                <field name="employee_id"/>
+                <field name="total_progress_percentage" widget="progressbar"/>
+                <field name="state" widget="badge" decoration-success="state == 'on_track'" decoration-warning="state == 'late'" decoration-danger="state == 'at_risk'"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="kpi_course_tracking_kanban_view" model="ir.ui.view">
+        <field name="name">kpi.course.tracking.kanban</field>
+        <field name="model">kpi.course.tracking</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state">
+                <field name="state"/><field name="total_progress_percentage"/><field name="name"/><field name="employee_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click oe_kanban_card {{ record.state.raw_value == 'on_track' ? 'border-success' : '' }} {{ record.state.raw_value == 'late' ? 'border-warning' : '' }} {{ record.state.raw_value == 'at_risk' ? 'border-danger' : '' }}">
+                            <div class="o_kanban_record_top"><strong><field name="name"/></strong></div>
+                            <div class="o_kanban_record_body mt-2">
+                                <field name="employee_id"/><br/>
+                                <field name="total_progress_percentage" widget="progressbar"/>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
     </record>
 
     <record id="kpi_course_tracking_action" model="ir.actions.act_window">
-        <field name="name">Certificaciones</field>
+        <field name="name">KPIs de Cursos (Certificación)</field>
         <field name="res_model">kpi.course.tracking</field>
-        <field name="view_mode">tree,form,graph</field>
+        <field name="view_mode">tree,kanban,form,graph,pivot</field>
     </record>
+
 </odoo>
