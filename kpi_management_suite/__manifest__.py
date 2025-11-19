@@ -1,34 +1,32 @@
 {
-    'name': "Suite de Gestión de KPIs",
-    'summary': 'Evaluación de Desempeño 360: Internos, Tareas y Certificaciones.',
+    'name': "KPI Management & Performance Suite",
+    'summary': '360° Evaluation: Weekly KPIs, Tasks Quality (1-10) & Certifications Tracking.',
     'description': """
-        Solución integral para la gestión del rendimiento del talento humano.
+        Comprehensive HR Solution for Talent Performance Management.
         
-        Módulos Incluidos:
-        1. Evaluación Semanal (KPIs Internos): Medición de cumplimiento de normativas.
-        2. Gestión de Tareas (Administrativo): Seguimiento de proyectos con escala de calidad 1-10.
-        3. Plan de Carrera (Certificaciones): Tracking de avance en cursos.
+        Key Features:
+        1. **Weekly Internal KPIs:** Track punctuality, presentation, and compliance.
+        2. **Task Management (Admin):** Project tracking with a simplified 1-10 Quality Scale.
+        3. **Career Path (Certifications):** Course progress tracking with Traffic Light status (Green/Yellow/Red).
         
-        Incluye Tablero de Mando (Dashboard) totalmente gráfico y responsive.
+        Includes a fully **Responsive Executive Dashboard** for real-time analysis.
     """,
-    'version': '17.0.1.1', 
+    'version': '17.0.1.6.0', # Subí la versión
     'category': 'Human Resources',
-    'author': "Carlos Ramos",
-    'website': "https://github.com/cramosmartinez",
+    'author': "Carlos Ramos", # Tu nombre o empresa
+    'website': "github.com/cramosmartinez", 
     'license': 'AGPL-3',
     'application': True,
     'installable': True,
     
-   
+    # Configuración de Venta
     'price': 15.00,
     'currency': 'USD',
     
-   
     'depends': ['base', 'hr', 'mail', 'board'],
     
-   
+    # Imágenes
     'images': ['static/description/cover.png'],
-    
     
     'data': [
         'security/ir.model.access.csv',
